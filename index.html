@@ -1,28 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+  <title>Login</title>
   <meta charset="UTF-8" />
-  <title>Login | Chat</title>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 </head>
 <body>
-  <h1>Welcome to Chat</h1>
+  <h2>Login / Register</h2>
   <input id="username" placeholder="Username" /><br />
-  <input id="password" placeholder="Password" type="password" /><br />
-  <button onclick="login()">Login / Register</button>
+  <input id="password" type="password" placeholder="Password" /><br />
+  <button onclick="login()">Go</button>
   <script src="firebase-config.js"></script>
   <script>
     function login() {
-      const email = document.getElementById("username").value + "@chat.app";
-      const password = document.getElementById("password").value;
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+      const email = user + "@chat.app";
 
-      auth.signInWithEmailAndPassword(email, password)
+      auth.signInWithEmailAndPassword(email, pass)
         .then(() => location.href = "chat.html")
         .catch(() => {
-          auth.createUserWithEmailAndPassword(email, password)
-            .then(() => location.href = "chat.html")
+          auth.createUserWithEmailAndPassword(email, pass)
+            .then(() => {
+              db.ref("users/" + user).set({ username: user });
+              location.href = "chat.html";
+            })
             .catch(err => alert(err.message));
         });
     }
