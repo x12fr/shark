@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login | Chat</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+</head>
+<body>
+  <h1>Welcome to Chat</h1>
+  <input id="username" placeholder="Username" /><br />
+  <input id="password" placeholder="Password" type="password" /><br />
+  <button onclick="login()">Login / Register</button>
+  <script src="firebase-config.js"></script>
+  <script>
+    function login() {
+      const email = document.getElementById("username").value + "@chat.app";
+      const password = document.getElementById("password").value;
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => location.href = "chat.html")
+        .catch(() => {
+          auth.createUserWithEmailAndPassword(email, password)
+            .then(() => location.href = "chat.html")
+            .catch(err => alert(err.message));
+        });
+    }
+  </script>
+</body>
+</html>
