@@ -1,1 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat</title>
+  <style>
+    #messages div { cursor: pointer; }
+    .announcement { background: yellow; padding: 5px; }
+    .flash { animation: flash 2s; }
+    @keyframes flash {
+      0% { background: red; }
+      25% { background: green; }
+      50% { background: blue; }
+      75% { background: purple; }
+      100% { background: white; }
+    }
+  </style>
+</head>
+<body>
+  <div class="announcement" id="announcement"></div>
+  <h2>Public Chat</h2>
+  <div id="messages"></div>
+  <input id="msg" placeholder="Message..." />
+  <button onclick="send()">Send</button>
 
+  <div id="admin" style="display:none;">
+    <h3>Admin Tools</h3>
+    <input id="target" placeholder="User to flash" />
+    <button onclick="flashUser()">Flash User</button><br />
+    <input id="announce-text" placeholder="Announcement..." />
+    <button onclick="announce()">Announce</button>
+  </div>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
