@@ -1,1 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+</head>
+<body>
+  <h2>Login / Register</h2>
+  <input id="username" placeholder="Username" /><br />
+  <input id="password" type="password" placeholder="Password" /><br />
+  <button onclick="go()">Continue</button>
 
+  <script>
+    async function go() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      const res = await fetch('/login', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+      });
+
+      if (res.ok) {
+        localStorage.setItem("user", username);
+        localStorage.setItem("pass", password);
+        location.href = "chat.html";
+      } else {
+        const reg = await fetch('/register', {
+          method: 'POST',
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password })
+        });
+
+        if (reg.ok) {
+          localStorage.setItem("user", username);
+          localStorage.setItem("pass", password);
+          location.href = "chat.html";
+        } else {
+          alert(await reg.text());
+        }
+      }
+    }
+  </script>
+</body>
+</html>
